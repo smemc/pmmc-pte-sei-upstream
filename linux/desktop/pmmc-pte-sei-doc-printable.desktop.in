@@ -1,0 +1,9 @@
+[Desktop Entry]
+Encoding=UTF-8
+Type=Application
+Categories=Education;
+Name=SEI - Manual de Ajuda (versão para impressão)
+Exec=sei-doc-printable
+Icon=application-pdf
+Terminal=false
+Version=@VERSION@

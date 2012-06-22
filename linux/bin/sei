@@ -1,0 +1,2 @@
+#!/bin/sh
+/opt/pmmc/pte/bin/flashplayer /opt/pmmc/pte/sei/sei.swf
