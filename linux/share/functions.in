@@ -59,3 +59,52 @@ sei_unpack() {
     unzip -q -P `bash -c "echo -e \"${zip_password}\""` ${unpack_dir}/sei.zip -d ${unpack_dir} \
         || sei_exit_with_error "unpack failed"
 }
+
+sei_install_data() {
+    orig_dir=${1}
+    dest_dir=${2}
+
+    for file in `find ${orig_dir} -type f | grep -v "manua"`
+    do
+        newdir=`dirname ${file} | sed -e "s@${orig_dir}@${dest_dir}@"`
+        install -D -m 644 ${file} ${newdir}/`basename ${file}`
+    done
+
+    cat > ${dest_dir}/sei.html <<EOF
+<html>
+<head>
+<style>html, body { margin: 0; padding: 0; }</style>
+</head>
+<body>
+<object width="100%" height="100%" data="sei.swf">
+<param name="movie" value="sei.swf" />
+</object>
+</body>
+</html>
+EOF
+
+    ln -s sei.html ${dest_dir}/index.html
+}
+
+sei_install_doc() {
+    orig_dir=${1}
+    dest_dir=${2}
+
+    for file in `find ${orig_dir} -type f`
+    do
+        newfile=`echo ${file} | sed -e "s@${orig_dir}@${dest_dir}@"`
+
+        case `basename ${file}` in
+            ajuda_sei.pdf) newfile=`dirname ${newfile}`/pmmc-pte-sei-doc.pdf ;;
+            ajuda_sei_impresso.pdf) newfile=`dirname ${newfile}`/pmmc-pte-sei-doc-printable.pdf ;;
+        esac
+
+        install -D -m 644 ${file} ${newfile}
+    done
+}
+
+sei_remove_data_or_doc() {
+    dest_dir=${1}
+    rm -rf ${dest_dir}/*
+    rmdir --ignore-fail-on-non-empty -p ${dest_dir} || true
+}
