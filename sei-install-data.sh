@@ -1,9 +1,8 @@
 #!/bin/sh
 
 . linux/share/functions
-. /etc/lsb-release
 
-case "${DISTRIB_CODENAME}" in
+case "`lsb_release -sc`" in
     "hardy")
         MKTEMP_OPTS="-t"
     ;;
