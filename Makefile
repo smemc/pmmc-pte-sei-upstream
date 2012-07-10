@@ -1,7 +1,9 @@
 VERSION = 2.12.1.1
-SHA256SUM = f1fc5ea4f6230892493d182a38c2ebf76b91a1c12edd00cc934a09ae33adca01
+SHA256SUM = 8bab8275f8bbad5161a2b7b1447f87e6a644daa32d7f6bfd1de7e2c3cec99645
 PREFIX = $(DESTDIR)/usr
-PTE_PREFIX = $(PREFIX)/share
+PTE_PREFIX = $(DESTDIR)/opt/pmmc/pte
+STANDALONE = 0
+
 
 INSTALL_BINARIES = \
 	install-bin \
@@ -48,7 +50,13 @@ INSTALL_ICONS = \
 
 build: $(ICONS) $(DESKTOP_FILES) linux/share/functions
 
-install: $(INSTALL_BINARIES) $(INSTALL_ICONS) $(INSTALL_DESKTOP_FILES)
+ifeq ($(STANDALONE), 1)
+install: install-main install-data install-doc
+else
+install: install-main
+endif
+
+install-main: $(INSTALL_BINARIES) $(INSTALL_ICONS) $(INSTALL_DESKTOP_FILES)
 	install -D -m 644 icons/sei.svg $(PREFIX)/share/icons/hicolor/scalable/apps/pmmc-pte-sei.svg
 	install -D -m 644 linux/share/functions $(PREFIX)/share/sei/functions
 
