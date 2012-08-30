@@ -1,6 +1,6 @@
 VERSION=@VERSION@
 SHA256SUM=@SHA256SUM@
-FILENAME=sei_${VERSION}.tar.gz
+FILENAME=SEI_${VERSION}.tar.gz
 URI=http://www.orientadores.pmmc.com.br/cae/sei/${FILENAME}
 
 sei_exit_with_error() {
